@@ -1,0 +1,50 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %} Listado de comentarios {% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-4">Salas VBC</h2>
+            <a href="{% url 'comment_create' %}" class="btn btn-success">Crear Comentario</a>
+        </div>
+        <table class="table table-striped border">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">sala</th>
+                    <th scope="col">texto</th>
+                    <th scope="col">calificacion</th>
+                    <th scope="col">fecha_publicacion</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if list_comment_vbc %}
+                {% for comment in list_comment_vbc %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ comment.sala }}</td>
+                    <td>{{ comment.texto }}</td>
+                    <td>{{ comment.calificacion }}</td>
+                    <td>{{ comment.fecha_publicacion }}</td>
+                    <td>
+                        {% comment %}
+                        <a href="{% url 'comment_update' comment.id %}" class="btn btn-success btn-sm">Editar</a>
+                        <a href="{% url 'comment_delete' comment.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="{% url 'comment_detail' comment.id %}" class="btn btn-primary btn-sm">Ver</a>
+                        {% endcomment %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7">No hay comentarios creados.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

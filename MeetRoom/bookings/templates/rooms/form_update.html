@@ -1,0 +1,28 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Actualizar Reserva{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4">Actualizar Sala</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        Datos de la Sala
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'room_update' OBJETO.id %}"> 
+                            {% csrf_token %}  <!-- CSRF Token added here -->
+                            {{ edit_room.as_p }}
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <a href="{% url 'room_list' %}" class="btn btn-primary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

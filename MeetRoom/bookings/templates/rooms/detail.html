@@ -1,0 +1,68 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Detalle de la Sala{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <h4 class="card-header bg-dark text-white">
+                        Detalle de la Sala
+                    </h4>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item active" aria-current="true">
+                                <h5 class="card-title text-white my-0">{{ todas_las_sala.nombre }}</h5>
+                            </li>
+                            <li class="list-group-item">
+                                {% if todas_las_sala.disponible %}
+                                <p class="card-text mb-0"><strong>Disponibilidad</strong>: Disponible</p>
+                                {% else %}
+                                <p class="card-text mb-0"><strong>Disponibilidad</strong>: No Disponible</p>
+                                {% endif %}
+                            </li>
+                            <li class="list-group-item">
+                                <p class="card-text mb-0"><strong>Capacidad</strong>: {{ todas_las_sala.capacidad }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p class="card-text"><strong>Descripción</strong>: {{ todas_las_sala.descripcion | default:"No proporcionado" }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3>Reservas para esta Sala</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre de Usuario</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Hora de Inicio</th>
+                                <th scope="col">Hora de Fin</th>
+                                <th scope="col">Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reserva in todas_las_sala.reservas.all %}
+                            <tr>
+                                <td>{{ reserva.nombre_de_usuario }}</td>
+                                <td>{{ reserva.fecha | date:"d/m/Y" }}</td>
+                                <td>{{ reserva.hora_inicio | date:"H:i" }}</td>
+                                <td>{{ reserva.hora_fin | date:"H:i" }}</td>
+                                <td>{{ reserva.descripcion | default:"No proporcionado" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">No hay reservas para esta sala.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

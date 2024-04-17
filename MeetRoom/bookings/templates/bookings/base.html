@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} MeetRoom {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'bookings/css/bootstrap.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-body px-4">
+        <a class="navbar-brand" href="/bookings">Reservas</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Dropdown for Reserva -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkReserva" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reservas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkReserva">
+                        <a class="dropdown-item" href="{% url 'booking_list' %}">Todas las Reservas</a>
+                        <a class="dropdown-item" href="{% url 'bookings_create' %}">Crear Reserva</a>
+                        <a class="dropdown-item" href="{% url 'booking_search' %}">Buscar Reserva por usuario</a>
+                    </div>
+                </li>
+                <!-- Dropdown for Sala -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Salas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
+                        <a class="dropdown-item" href="{% url 'room_list' %}">Todas las Salas</a>
+                        <a class="dropdown-item" href="{% url 'room_create' %}">Crear Sala</a>
+                        <a class="dropdown-item" href="{% url 'room_search' %}">Buscar Sala</a>
+                    </div>
+                </li>
+                <!-- Dropdown for Sala (VBC)-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Salas (VBC)
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
+                        <a class="dropdown-item" href="{% url 'vbc_room_list' %}">Todas las Salas</a>
+                        <a class="dropdown-item" href="{% url 'vbc_room_create' %}">Crear Sala</a>
+                    </div>
+                </li>
+                <!-- Dropdown for Sala (VBC)-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkSala" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Comentarios
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkSala">
+                        <a class="dropdown-item" href="{% url 'comment_list' %}">Todos los Comentarios</a>
+                        <a class="dropdown-item" href="{% url 'comment_create' %}">Crear comentario</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Main content -->
+    <div class="container-fluid p-0 mt-4">
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock content %}
+    </div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

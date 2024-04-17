@@ -1,0 +1,50 @@
+{% extends 'bookings/base.html' %}
+{% block title %}Detalle de la Reserva{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow">
+                    <h4 class="card-header bg-dark text-white">
+                        Detalle de la Reserva
+                    </h4>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item active" aria-current="true">
+                                <h5 class="card-title text-white my-0">{{ reserva.nombre_de_usuario }}</h5>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="card-subtitle mb-2 text-muted my-0"><strong>Sala:</strong> {{ reserva.sala }}</h6>
+                            </li>
+                            <li class="list-group-item">
+                                <p class="card-text my-0"><strong>Fecha:</strong> {{ reserva.fecha | date:"d/m/Y" }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p class="card-text my-0"><strong>Hora de inicio:</strong> {{ reserva.hora_inicio | date:"H:i" }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p class="card-text my-0"><strong>Hora de fin:</strong> {{ reserva.hora_fin | date:"H:i" }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p class="card-text my-0"><strong>Hora de fin:</strong> {{ reserva.hora_fin | date:"H:i" }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p class="card-text my-0"><strong>Descripción:</strong> {{ reserva.descripcion }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    {% comment %}
+                    <div class="card-footer text-muted">
+                        <a href="{% url 'edit_reserva' reserva.id %}" class="btn btn-primary">Editar Reserva</a>
+                        <a href="{% url 'delete_reserva' reserva.id %}" class="btn btn-danger">Eliminar Reserva</a>
+                        <a href="{% url 'todas_las_reservas' %}" class="btn btn-secondary">Volver al listado</a>
+                    </div>
+                    {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

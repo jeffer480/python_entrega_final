@@ -1,0 +1,27 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Crear Reserva{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <h2 class="mb-4">Crear Reserva</h2>
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        Datos de la Reserva
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'bookings_create' %}"> 
+                            {% csrf_token %}  <!-- CSRF Token added here -->
+                            {{ booking_create.as_p }}
+                            <button type="buscar" class="btn btn-primary">Envíar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

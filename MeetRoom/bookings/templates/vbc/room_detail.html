@@ -1,0 +1,58 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Detalle de la Sala{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        Detalle de la Sala
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ detail_room_vbc.nombre }}</h5>
+                        {% if detail_room_vbc.disponible %}
+                        <h6 class="card-subtitle mb-2">Disponibilidad: Disponible</h6>
+                        {% else %}
+                        <h6 class="card-subtitle mb-2">Disponibilidad: No Disponible</h6>
+                        {% endif %}
+                        <p class="card-text">Capacidad: {{ detail_room_vbc.capacidad }}</p>
+                        <p class="card-text">Descripción: {{ detail_room_vbc.descripcion | default:"No proporcionado" }}</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3>Reservas para esta Sala</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre de Usuario</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Hora de Inicio</th>
+                                <th scope="col">Hora de Fin</th>
+                                <th scope="col">Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reserva in detail_room_vbc.reservas.all %}
+                            <tr>
+                                <td>{{ reserva.nombre_de_usuario }}</td>
+                                <td>{{ reserva.fecha | date:"d/m/Y" }}</td>
+                                <td>{{ reserva.hora_inicio | date:"H:i" }}</td>
+                                <td>{{ reserva.hora_fin | date:"H:i" }}</td>
+                                <td>{{ reserva.descripcion | default:"No proporcionado" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">No hay reservas para esta sala.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

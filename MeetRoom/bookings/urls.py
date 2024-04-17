@@ -1,0 +1,37 @@
+from django.urls import path
+
+from .views import (
+    home_view, list_view_bookings, search_view_bookings, detail_view_bookings, create_booking_view,
+    list_room_view, create_room_view, delete_room_view, update_room_view, search_room_view, detail_room_view,
+    listCommentView, CommentCreateView,
+    RoomListView, RoomCreateView, RoomDetailView, RoomUpdateView, RoomDeleteView
+)
+
+
+urlpatterns = [
+    path("", home_view, name="booking_home"),
+    path("bookings/list/", list_view_bookings, name="booking_list"),
+    path("bookings/detail/<booking_id>", detail_view_bookings, name="booking_detail"),
+    path("booking/create/", create_booking_view, name="bookings_create"),
+    # path("booking/search/<nombre_de_usuario>", search_view_bookings, name="booking_search_"),
+    path("booking/search/", search_view_bookings, name="booking_search"),
+
+    # comentarios
+     path('comment/list/', listCommentView.as_view(), name="comment_list"),
+     path('comment/create/', CommentCreateView.as_view(), name='comment_create'),
+
+    # CRUD Rooms
+    path("room/list/", list_room_view, name="room_list"),
+    path("room/create/", create_room_view, name="room_create"),
+    path("room/detail/<room_id>", detail_room_view, name="room_detail"),
+    path("room/delete/<room_id>", delete_room_view, name="room_delete"),
+    path("room/update/<room_id>", update_room_view, name="room_update"),
+    path("room/search/", search_room_view, name="room_search"),
+
+    # Vistas basadas en clases "VBC"
+    path('room/vbc/list', RoomListView.as_view(), name='vbc_room_list'),
+    path('room/vbc/create/', RoomCreateView.as_view(), name='vbc_room_create'),
+    path('room/vbc/<int:pk>/detail', RoomDetailView.as_view(), name='vbc_room_detail'),
+    path('room/vbc/<int:pk>/update/', RoomUpdateView.as_view(), name='vbc_room_update'),
+    path('room/vbc/<int:pk>/delete/', RoomDeleteView.as_view(), name='vbc_room_delete'),
+]
