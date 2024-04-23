@@ -3,8 +3,11 @@ from django.urls import path
 from .views import (
     home_view, list_view_bookings, search_view_bookings, detail_view_bookings, create_booking_view,
     list_room_view, create_room_view, delete_room_view, update_room_view, search_room_view, detail_room_view,
-    listCommentView, CommentCreateView,
-    RoomListView, RoomCreateView, RoomDetailView, RoomUpdateView, RoomDeleteView
+    # Vistas basadas en clases "VBC"
+    CommentListView, CommentCreateView, CommentDetailView, CommentUpdateView, CommentDeleteView,
+    RoomListView, RoomCreateView, RoomDetailView, RoomUpdateView, RoomDeleteView,
+    #user
+    user_creation_view, user_login_view, user_logout_view, UserUpdateView
 )
 
 
@@ -17,8 +20,11 @@ urlpatterns = [
     path("booking/search/", search_view_bookings, name="booking_search"),
 
     # comentarios
-     path('comment/list/', listCommentView.as_view(), name="comment_list"),
-     path('comment/create/', CommentCreateView.as_view(), name='comment_create'),
+    path('comment/list/', CommentListView.as_view(), name="comment_list"),
+    path('comment/create/', CommentCreateView.as_view(), name='comment_create'),
+    path('comment/detail/<int:pk>/', CommentDetailView.as_view(), name='comment_detail'),
+    path('comment/update/<int:pk>/', CommentUpdateView.as_view(), name='comment_update'),
+    path('comment/delete/<int:pk>/', CommentDeleteView.as_view(), name='comment_delete'),
 
     # CRUD Rooms
     path("room/list/", list_room_view, name="room_list"),
@@ -34,4 +40,11 @@ urlpatterns = [
     path('room/vbc/<int:pk>/detail', RoomDetailView.as_view(), name='vbc_room_detail'),
     path('room/vbc/<int:pk>/update/', RoomUpdateView.as_view(), name='vbc_room_update'),
     path('room/vbc/<int:pk>/delete/', RoomDeleteView.as_view(), name='vbc_room_delete'),
+
+    # users
+    path("create-user/", user_creation_view, name="create_user"),
+    path("login/", user_login_view, name="login"),
+    path("logout/", user_logout_view, name="logout"),
+    path('update-perfil/', UserUpdateView.as_view(), name='update_perfil'),
+
 ]

@@ -11,13 +11,13 @@
             <div class="col-lg-8 mx-auto">
                 <div class="card shadow-sm">
                     <div class="card-header">
-                        <p>Estás seguro de eliminar "{{ object.nombre }}"?</p>
+                        <p>Estás seguro de eliminar "{{ object.contenido }}"?</p>
                     </div>
                     <div class="card-body">
                         <form method="post">
                             {% csrf_token %}
                             <input type="submit" class="btn btn-primary" value="Confirmar eliminar">
-                            <a href="{% url 'vbc_room_list' %}">Cancelar</a>
+                            <a href="{% url 'comment_list' %}">Cancelar</a>
                         </form>
                     </div>
                 </div>

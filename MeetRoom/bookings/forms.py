@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import TextInput, CheckboxInput, NumberInput, Textarea
+from django.forms import TextInput, CheckboxInput, NumberInput, Textarea, EmailField
 
 from .models import Reserva, Sala
 
@@ -14,23 +14,10 @@ class RoomCreateForm(forms.ModelForm):
             'descripcion': 'Descripción',
         }
         widgets = {
-            'nombre': TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ingrese una sala ej: Literatura'
-                }),
-            'disponible': CheckboxInput(attrs={
-                'class': 'form-check-input',
-                }),
-            'capacidad': NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ingrese cantidad',
-                'style': 'width: 320px;'
-                }),
-            'descripcion': Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ingrese una breve descripción',
-                'rows': 5
-                }),
+            'nombre': TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese una sala ej: Literatura'}),
+            'disponible': CheckboxInput(attrs={'class': 'form-check-input',}),
+            'capacidad': NumberInput(attrs={'class': 'form-control','placeholder': 'Ingrese cantidad','style': 'width: 320px;'}),
+            'descripcion': Textarea(attrs={'class': 'form-control','placeholder': 'Ingrese una breve descripción','rows': 5}),
         }
 
 class RoomSearchForm(forms.Form):
@@ -47,34 +34,12 @@ class ReservaCreateForm(forms.ModelForm):
         # Specifying which fields should appear in the form, including 'sala'
         fields = ['nombre_de_usuario', 'sala', 'fecha', 'hora_inicio', 'hora_fin', 'descripcion']
         widgets = {
-            'nombre_de_usuario': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ingrese nombre ej: Jefferson Varela'
-                }),
-            'sala': forms.Select(attrs={
-                'class': 'form-select',
-                'style': 'width: 320px;'
-                }),
-            'fecha': forms.DateInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 320px;',
-                'type': 'date'
-                }),
-            'hora_inicio':forms.TimeInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 320px;',
-                'type': 'time'
-                }),
-            'hora_fin': forms.TimeInput(attrs={
-                'class': 'form-control',
-                'style': 'width: 320px;',
-                'type': 'time'
-                }),
-            'descripcion': forms.Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ingrese una breve descripción',
-                'rows': 5
-                }),
+            'nombre_de_usuario': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ingrese nombre ej: Jefferson Varela'}),
+            'sala': forms.Select(attrs={'class': 'form-select','style': 'width: 320px;'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control','style': 'width: 320px;','type': 'date'}),
+            'hora_inicio':forms.TimeInput(attrs={'class': 'form-control','style': 'width: 320px;','type': 'time'}),
+            'hora_fin': forms.TimeInput(attrs={'class': 'form-control','style': 'width: 320px;','type': 'time'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control','placeholder': 'Ingrese una breve descripción','rows': 5}),
         }
         labels = {
             'nombre_de_usuario': 'Elegir un nombre de usuario para la reserva',
@@ -86,10 +51,8 @@ class ReservaCreateForm(forms.ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super(ReservaCreateForm, self).__init__(*args, **kwargs)
-        # Optionally, you can further customize the 'sala' field here, for example:
-        self.fields['sala'].queryset = Sala.objects.filter(disponible=True)  # Limit choices to available rooms
-        self.fields['sala'].label = "Sala"  # Customize the field label
-        # Any other field customizations can be done here
+        self.fields['sala'].queryset = Sala.objects.filter(disponible=True) 
+        self.fields['sala'].label = "Sala" 
 
 # class ReservaSearchForm(forms.Form):
 #     nombre_de_usuario = forms.CharField(max_length=50, required=False, label="Nombre de Usuario")
@@ -101,3 +64,37 @@ class ReservaCreateForm(forms.ModelForm):
 
 class ReservaSearchForm(forms.Form):
     nombre_de_usuario = forms.CharField(max_length=50, required=True, label="Ingresar nombre de usuario", widget=forms.TextInput(attrs={'placeholder': 'Ingrese un nombre ej. Jefferson', 'class': 'form-control'}))
+
+# -----------------------------------------------editar user------------------------------------------------------
+from django.contrib.auth.models import User
+
+class UserEditForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super(UserEditForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'type': 'email'})
+
+# -------------------crear usuario personalizado (por defecto no se hace esta class) ---------------------
+
+from django.contrib.auth.forms import UserCreationForm
+#from django.contrib.auth.models import User
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2')  # Campos que quieres personalizar
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Nombre de usuario'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Contraseña'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirmar contraseña'})
+
+

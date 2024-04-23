@@ -6,45 +6,53 @@
 <section class="py-5">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="mb-4">Salas VBC</h2>
+            <h2 class="mb-4">Comentarios</h2>
             <a href="{% url 'comment_create' %}" class="btn btn-success">Crear Comentario</a>
         </div>
-        <table class="table table-striped border">
-            <thead class="bg-dark text-white">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">sala</th>
-                    <th scope="col">texto</th>
-                    <th scope="col">calificacion</th>
-                    <th scope="col">fecha_publicacion</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if list_comment_vbc %}
-                {% for comment in list_comment_vbc %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ comment.sala }}</td>
-                    <td>{{ comment.texto }}</td>
-                    <td>{{ comment.calificacion }}</td>
-                    <td>{{ comment.fecha_publicacion }}</td>
-                    <td>
-                        {% comment %}
-                        <a href="{% url 'comment_update' comment.id %}" class="btn btn-success btn-sm">Editar</a>
-                        <a href="{% url 'comment_delete' comment.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                        <a href="{% url 'comment_detail' comment.id %}" class="btn btn-primary btn-sm">Ver</a>
-                        {% endcomment %}
-                    </td>
-                </tr>
-                {% endfor %}
-                {% else %}
-                <tr>
-                    <td colspan="7">No hay comentarios creados.</td>
-                </tr>
-                {% endif %}
-            </tbody>
-        </table>
+        {% if list_comment_vbc %}
+        {% for comment in list_comment_vbc %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ forloop.counter }} - Sala: {{ comment.sala }} | Nº de sala {{ comment.sala_id }} </h5>
+                    <div>
+                        <a class="btn btn-primary" href="{% url 'comment_detail' comment.id %}" role="button">Ver</a>
+                        <a class="btn btn-success" href="{% url 'comment_update' comment.id %}" role="button">Editar</a>
+                        <a class="btn btn-danger" href="{% url 'comment_delete' comment.id %}" role="button">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Calificacion: <strong>{{ comment.calificacion }}</strong></h5>
+                <p class="card-text">Fecha de comentario: <strong>{{ comment.fecha_creacion }}</strong></p>
+                <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#comment_{{ comment.id }}" role="button" aria-expanded="false" aria-controls="comment_{{ comment.id }}">Ver comentario</a>
+                <div class="collapse" id="comment_{{ comment.id }}">
+                    <div class="card card-body">
+                        {{ comment.contenido }}
+                    </div>
+                  </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-primary" role="alert">
+            No hay comentarios creados.
+        </div>
+        {% endif %}
+
+        {% comment %}
+        {% for my_comment in list_comment_vbc %}
+            {% if my_comment.usuario == request.user %}
+                <div>
+                    <p>{{ my_comment.sala }}</p>
+                    <p>{{ my_comment.contenido }}</p>
+                    <p>{{ my_comment.fecha_creacion }}</p>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>No hay comentarios disponibles.</p>
+        {% endfor %}
+        {% endcomment %}
     </div>
 </section>
 {% endblock %}

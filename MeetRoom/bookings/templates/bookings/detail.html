@@ -4,6 +4,13 @@
 {% block content %}
 <section class="py-5">
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            {% if object %}<h2 class="mb-4">Reserva creada</h2>: {{ object.nombre }}{% else %}<h2 class="mb-4">Reserva</h2>{% endif %}
+            <div>
+                <a href="{% url 'bookings_create' %}" class="btn btn-success">Crear Reserva</a>
+                <a href="{% url 'booking_list' %}" class="btn btn-primary">Todas las Reservas</a>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="card shadow">
@@ -23,9 +30,6 @@
                             </li>
                             <li class="list-group-item">
                                 <p class="card-text my-0"><strong>Hora de inicio:</strong> {{ reserva.hora_inicio | date:"H:i" }}</p>
-                            </li>
-                            <li class="list-group-item">
-                                <p class="card-text my-0"><strong>Hora de fin:</strong> {{ reserva.hora_fin | date:"H:i" }}</p>
                             </li>
                             <li class="list-group-item">
                                 <p class="card-text my-0"><strong>Hora de fin:</strong> {{ reserva.hora_fin | date:"H:i" }}</p>

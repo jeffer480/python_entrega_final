@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Sala(models.Model):
     nombre = models.CharField(max_length=100)
@@ -8,7 +9,7 @@ class Sala(models.Model):
     descripcion = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.nombre} - {'Disponible' if self.disponible else 'No Disponible'} - Capacidad: {self.capacidad}"
+        return f"{self.nombre}"
 
 class Reserva(models.Model):
     nombre_de_usuario = models.CharField(max_length=50)
@@ -22,10 +23,11 @@ class Reserva(models.Model):
         return f"{self.nombre_de_usuario} - {self.sala.nombre} - {self.fecha}"
     
 class Comentario(models.Model):
-    sala = models.ForeignKey(Sala, on_delete=models.CASCADE, related_name='comentario')
-    texto = models.TextField()
-    calificacion = models.PositiveSmallIntegerField()
-    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    sala = models.ForeignKey(Sala, on_delete=models.CASCADE, related_name='comentarios')
+    contenido = models.TextField()
+    calificacion = models.CharField(max_length=100)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.texto} - {self.calificacion} - {self.fecha_publicacion}"
+        return f"Comentario de {self.usuario.username} en {self.sala.nombre}"

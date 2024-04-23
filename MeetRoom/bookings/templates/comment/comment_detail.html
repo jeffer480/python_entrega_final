@@ -1,0 +1,24 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Detalle del comentario{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        Detalle del comentario
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ comment_detail_context.sala }}</h5>
+                        <p class="card-text">Calificacion: {{ comment_detail_context.calificacion }}</p>
+                        <p class="card-text">Texto: {{ comment_detail_context.contenido }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

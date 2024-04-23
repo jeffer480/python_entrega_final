@@ -20,6 +20,16 @@
                         {% endif %}
                         <p class="card-text">Capacidad: {{ detail_room_vbc.capacidad }}</p>
                         <p class="card-text">Descripción: {{ detail_room_vbc.descripcion | default:"No proporcionado" }}</p>
+
+                        <div class="card card-body">
+                            Comentarios de la sala: 
+                            {% if detail_room_vbc.comentarios == 0 %}
+                                No existen comentarios asociados a la sala
+                            {% else %}
+                                {{ detail_room_vbc.comentarios.all|length }}
+                            {% endif %}
+                        </div>
+
                     </div>
                 </div>
                 <div class="mt-4">
