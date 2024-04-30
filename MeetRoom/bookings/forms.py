@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import TextInput, CheckboxInput, NumberInput, Textarea, EmailField
 
-from .models import Reserva, Sala
+from .models import Reserva, Sala, Avatar
 
 class RoomCreateForm(forms.ModelForm):
     class Meta:
@@ -96,5 +96,12 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Nombre de usuario'})
         self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Contraseña'})
         self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirmar contraseña'})
+
+
+# -------------avatar
+class AvatarCreateForm(forms.ModelForm):
+    class Meta:
+        model = Avatar
+        fields = ['image']
 
 

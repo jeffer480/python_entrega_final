@@ -203,6 +203,45 @@ class CommentListView(ListView):
     model = Comentario
     template_name = 'comment/comment_list.html'
     context_object_name = 'list_comment_vbc'
+
+class MyCommentsListView(ListView):
+    model = Comentario
+    template_name = 'comment/comment_my_list.html'
+    context_object_name = 'comentarios_por_sala'
+
+    def get_queryset(self):
+        # Obtener los comentarios del usuario actual
+        comentarios_del_usuario = Comentario.objects.filter(usuario=self.request.user)
+        # Agrupar los comentarios por sala
+        comentarios_por_sala = {}
+        for comentario in comentarios_del_usuario:
+            sala_id = comentario.sala.id
+            if sala_id not in comentarios_por_sala:
+                comentarios_por_sala[sala_id] = []
+            comentarios_por_sala[sala_id].append(comentario)
+        
+        return comentarios_por_sala
+
+class MisComentariosListView(LoginRequiredMixin, ListView):
+    model = Comentario
+    template_name = 'mis_comentarios.html'
+    context_object_name = 'comentarios_por_sala'
+
+    def get_queryset(self):
+        # Obtener los comentarios del usuario actual
+        comentarios_del_usuario = Comentario.objects.filter(usuario=self.request.user)
+        
+        # Agrupar los comentarios por sala
+        comentarios_por_sala = {}
+        for comentario in comentarios_del_usuario:
+            sala_id = comentario.sala.id
+            if sala_id not in comentarios_por_sala:
+                comentarios_por_sala[sala_id] = []
+            comentarios_por_sala[sala_id].append(comentario)
+        
+        return comentarios_por_sala
+
+
     
 class CommentDetailView(LoginRequiredMixin, DetailView):
     model = Comentario
@@ -215,6 +254,13 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     fields = ['sala', 'contenido', 'calificacion']
     success_url = reverse_lazy('comment_list')
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)  # Obtén el formulario estándar
+        form.fields['sala'].widget.attrs.update({'class': 'form-select', 'placeholder': 'Ingrese una sala ej: Literatura', 'type': 'select'})
+        form.fields['calificacion'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese cantidad', 'type': 'number'})
+        form.fields['contenido'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese una breve descripción', 'rows': '5'})
+        return form
+
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
@@ -225,6 +271,13 @@ class CommentUpdateView(LoginRequiredMixin, UpdateView):
     fields = ['sala', 'contenido', 'calificacion']
     context_object_name = 'comentario'
     success_url = reverse_lazy('comment_list')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)  # Obtén el formulario estándar
+        form.fields['sala'].widget.attrs.update({'class': 'form-select', 'placeholder': 'Ingrese una sala ej: Literatura', 'type': 'select'})
+        form.fields['calificacion'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese cantidad', 'type': 'number'})
+        form.fields['contenido'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ingrese una breve descripción', 'rows': '5'})
+        return form
 
 class CommentDeleteView(DeleteView):
     model = Comentario
@@ -296,3 +349,26 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         messages.success(self.request, '¡Perfil actualizado exitosamente!')
         return response
 
+#-----------------------------avatar
+
+from .models import Avatar
+from .forms import AvatarCreateForm
+
+
+def avatar_view(request):
+    if request.method == "GET":
+        contexto = {"PABLOCALA": AvatarCreateForm()}
+    else:
+        form = AvatarCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.cleaned_data["image"]
+            avatar_existente = Avatar.objects.filter(user=request.user)
+            avatar_existente.delete()
+            nuevo_avatar = Avatar(image=image, user=request.user)
+            nuevo_avatar.save()
+            return redirect("booking_home")
+        else:
+            contexto = {"PABLOCALA": form}
+
+
+    return render(request, "users/avatar_create.html", context=contexto)

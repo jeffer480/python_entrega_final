@@ -1,0 +1,49 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %} Listado de mis comentarios {% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-4">Mis comentarios</h2>
+            <a href="{% url 'comment_create' %}" class="btn btn-success">Crear Comentario</a>
+        </div>
+
+        <ol class="list-group list-group-numbered mb-4">
+        {% for sala_id, comentarios in comentarios_por_sala.items %}
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto w-100">
+                    <div class="fw-bold">
+                        {% with comentarios.0.sala as sala %}
+                            Comentarios para Sala: {{ sala.nombre }}
+                        {% endwith %}
+                    </div>
+                    {% for my_comment in comentarios %}
+                        {% if my_comment.usuario == request.user %}
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="fst-italic mb-0">"{{ my_comment.contenido }}"</p>
+                                    <!-- Otros detalles del comentario -->
+                                    <p class="fw-lighter" style="font-size: 13px;">{{ my_comment.fecha_creacion }}</p>
+                                </div>
+                                <div>
+                                    <a href="{% url 'comment_update' my_comment.id %}" class="btn btn-success btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="{% url 'comment_delete' my_comment.id %}" class="btn btn-danger btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Eliminar"><i class="bi bi-x-square"></i></a>
+                                    <a href="{% url 'comment_detail' my_comment.id %}" class="btn btn-primary btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Ver"><i class="bi bi-eye"></i></a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </li>
+        {% empty %}
+            <div class="alert alert-primary" role="alert">
+                No hay comentarios creados.
+            </div>
+        {% endfor %}
+        </ol>
+
+    </div>
+</section>
+{% endblock %}

@@ -51,7 +51,7 @@
                             <li><a class="dropdown-item" href="{% url 'vbc_room_create' %}">Crear Sala</a></li>
                         </ul>
                     </li>
-                    <!-- Dropdown for Comentario)-->
+                    <!-- Dropdown for Comentario -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Comentarios
@@ -59,28 +59,39 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'comment_list' %}">Todos los Comentarios</a></li>
                             <li><a class="dropdown-item" href="{% url 'comment_create' %}">Crear Comentario</a></li>
+                            <li><a class="dropdown-item" href="{% url 'comment_my_comments' %}">Mis Comentarios</a></li>
                         </ul>
                     </li>
                 </ul>
                 {% endif %}
+                <!-- ------------nav user----------- -->
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> {% if user.first_name %} {{ user.first_name }} {% else %} {{ user.username }} {% endif %}
+                            {% if user.avatar.image %}
+                                <img src="{{ user.avatar.image.url }}" alt="Avatar" class="rounded-circle" style="height: 35px; width: 35px;">
+                            {% else %}
+                                <i class="bi bi-person-circle"></i>
+                            {% endif %}
+                            {% if user.first_name %} {{ user.first_name }} {% else %} {{ user.username }} {% endif %}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'update_perfil' %}">Editar perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'avatar_add' %}">Agregar Avatar</a></li>
                             <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                         </ul>
                     </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-person-fill-lock"></i> Iniciar sesión</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'create_user' %}"><i class="bi bi-person-fill-add"></i> Crear Usuario</a>
-                    </li>
+                        {% if request.path != '/bookings/login/' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-person-fill-lock"></i> Iniciar sesión</a>
+                        </li>
+                        {% elif request.path != '/bookings/create-user/' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'create_user' %}"><i class="bi bi-person-fill-add"></i> Crear Usuario</a>
+                        </li>
+                        {% endif %}
                     {% endif %}
                 </ul>
             </div>
@@ -94,5 +105,6 @@
     </div>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="{% static 'bookings/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'bookings/js/site.js' %}"></script>
 </body>
 </html>

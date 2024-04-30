@@ -1,13 +1,15 @@
 from django.urls import path
+# para user olvide contraseña, user cambiar contraseña
+from django.contrib.auth import views as auth_views
 
 from .views import (
     home_view, list_view_bookings, search_view_bookings, detail_view_bookings, create_booking_view,
     list_room_view, create_room_view, delete_room_view, update_room_view, search_room_view, detail_room_view,
     # Vistas basadas en clases "VBC"
-    CommentListView, CommentCreateView, CommentDetailView, CommentUpdateView, CommentDeleteView,
+    CommentListView, CommentCreateView, CommentDetailView, CommentUpdateView, CommentDeleteView,MyCommentsListView,
     RoomListView, RoomCreateView, RoomDetailView, RoomUpdateView, RoomDeleteView,
     #user
-    user_creation_view, user_login_view, user_logout_view, UserUpdateView
+    user_creation_view, user_login_view, user_logout_view, avatar_view, UserUpdateView
 )
 
 
@@ -21,6 +23,7 @@ urlpatterns = [
 
     # comentarios
     path('comment/list/', CommentListView.as_view(), name="comment_list"),
+    path('comment/list/my-comments', MyCommentsListView.as_view(), name="comment_my_comments"),
     path('comment/create/', CommentCreateView.as_view(), name='comment_create'),
     path('comment/detail/<int:pk>/', CommentDetailView.as_view(), name='comment_detail'),
     path('comment/update/<int:pk>/', CommentUpdateView.as_view(), name='comment_update'),
@@ -46,5 +49,13 @@ urlpatterns = [
     path("login/", user_login_view, name="login"),
     path("logout/", user_logout_view, name="logout"),
     path('update-perfil/', UserUpdateView.as_view(), name='update_perfil'),
+
+    path('avatar/add/', avatar_view, name='avatar_add'),
+
+    # URL para la recuperación de contraseña
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
 ]

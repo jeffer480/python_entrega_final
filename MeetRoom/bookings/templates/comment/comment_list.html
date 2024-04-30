@@ -16,9 +16,9 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">{{ forloop.counter }} - Sala: {{ comment.sala }} | Nº de sala {{ comment.sala_id }} </h5>
                     <div>
-                        <a class="btn btn-primary" href="{% url 'comment_detail' comment.id %}" role="button">Ver</a>
-                        <a class="btn btn-success" href="{% url 'comment_update' comment.id %}" role="button">Editar</a>
-                        <a class="btn btn-danger" href="{% url 'comment_delete' comment.id %}" role="button">Eliminar</a>
+                        <a href="{% url 'comment_update' comment.id %}" class="btn btn-success btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil-square"></i></a>
+                        <a href="{% url 'comment_delete' comment.id %}" class="btn btn-danger btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Eliminar"><i class="bi bi-x-square"></i></a>
+                        <a href="{% url 'comment_detail' comment.id %}" class="btn btn-primary btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Ver"><i class="bi bi-eye"></i></a>
                     </div>
                 </div>
             </div>

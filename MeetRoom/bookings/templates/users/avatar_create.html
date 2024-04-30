@@ -1,0 +1,25 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %} Nuevo Avatar {% endblock %}
+
+{% block content %}
+<h3>{% if object %}Nuevo Avatar{% endif %}</h3>
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ PABLOCALA.as_p }}
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <a href="{% url 'booking_home' %}">Cancel</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

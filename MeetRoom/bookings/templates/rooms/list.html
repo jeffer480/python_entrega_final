@@ -28,9 +28,9 @@
                     <td>{{ room.descripcion }}</td>
                     <td>{{ room.disponible }}</td>
                     <td>
-                        <a href="{% url 'room_update' room.id %}" class="btn btn-success btn-sm">Editar</a>
-                        <a href="{% url 'room_delete' room.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                        <a href="{% url 'room_detail' room.id %}" class="btn btn-primary btn-sm">Ver</a>
+                        <a href="{% url 'room_update' room.id %}" class="btn btn-success btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil-square"></i></a>
+                        <a href="{% url 'room_delete' room.id %}" class="btn btn-danger btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Eliminar"><i class="bi bi-x-square"></i></a>
+                        <a href="{% url 'room_detail' room.id %}" class="btn btn-primary btn-sm fs-6" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Ver"><i class="bi bi-eye"></i></a>
                     </td>
                 </tr>
                 {% endfor %}

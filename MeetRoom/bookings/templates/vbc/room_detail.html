@@ -7,6 +7,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-4">Sala</h2>
+                    <a href="{% url 'vbc_room_list' %}" class="btn btn-primary">Volver a salas</a>
+                </div>
                 <div class="card shadow-sm">
                     <div class="card-header bg-dark text-white">
                         Detalle de la Sala
@@ -22,14 +26,52 @@
                         <p class="card-text">Descripción: {{ detail_room_vbc.descripcion | default:"No proporcionado" }}</p>
 
                         <div class="card card-body">
-                            Comentarios de la sala: 
-                            {% if detail_room_vbc.comentarios == 0 %}
-                                No existen comentarios asociados a la sala
-                            {% else %}
-                                {{ detail_room_vbc.comentarios.all|length }}
-                            {% endif %}
+                            <div class="d-flex justify-content-between align-items-center">
+                               <div>
+                                    Comentarios de la sala: 
+                                    {{ detail_room_vbc.comentarios.all|length }}
+                               </div>
+                               {% if detail_room_vbc.comentarios.count > 0 %}
+                               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver comentarios</button>
+                               {% endif %}
+                            </div>
                         </div>
-
+                        {% if detail_room_vbc.comentarios.count > 0 %}
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Todos los comentarios</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="card">
+                                            <ul class="list-group list-group-flush">
+                                                {% for comentario in detail_room_vbc.comentarios.all %}
+                                                <li class="list-group-item">
+                                                    <strong>
+                                                        {% if comentario.usuario.first_name %}
+                                                            {{ comentario.usuario.first_name }}
+                                                        {% else %}
+                                                            {{ comentario.usuario.username }}
+                                                        {% endif %}
+                                                    </strong>:
+                                                    {{ comentario.contenido }}
+                                                </li>
+                                                {% empty %}
+                                                <li class="list-group-item">No hay comentarios para esta sala.</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="mt-4">
