@@ -9,7 +9,7 @@ from .views import (
     CommentListView, CommentCreateView, CommentDetailView, CommentUpdateView, CommentDeleteView,MyCommentsListView,
     RoomListView, RoomCreateView, RoomDetailView, RoomUpdateView, RoomDeleteView,
     #user
-    user_creation_view, user_login_view, user_logout_view, avatar_view, UserUpdateView
+    user_creation_view, user_login_view, user_logout_view, avatar_view, UserUpdateView, UserAboutDetailView
 )
 
 
@@ -49,6 +49,7 @@ urlpatterns = [
     path("login/", user_login_view, name="login"),
     path("logout/", user_logout_view, name="logout"),
     path('update-perfil/', UserUpdateView.as_view(), name='update_perfil'),
+    path('about/', UserAboutDetailView, name='user_about'),
 
     path('avatar/add/', avatar_view, name='avatar_add'),
 

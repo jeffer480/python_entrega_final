@@ -5,6 +5,10 @@
 {% block content %}
 <section class="py-5">
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-4">Detalle del comentario</h2>
+            <a href="{% url 'comment_list' %}" class="btn btn-success">Volver a Comentarios</a>
+        </div>
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="card shadow-sm">

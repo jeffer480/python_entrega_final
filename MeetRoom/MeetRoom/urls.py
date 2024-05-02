@@ -20,16 +20,16 @@ from django.urls import path, include
 from django.http import HttpResponse
 from django.views.generic.base import RedirectView
 
-def homeMeetRoom(request):
-    return HttpResponse("<h1>Bienvenidos a mi Proyecto MeetRoom</h1>")
+# def homeMeetRoom(request):
+#     return HttpResponse("<h1>Bienvenidos a mi Proyecto MeetRoom</h1>")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # ruta de localhost a funcion de arriba homeMeetRoom
-    path('', homeMeetRoom),
+    # path('', homeMeetRoom),
     path('bookings/', include('bookings.urls')),
     # redirect localhost
-    # path("", RedirectView.as_view(url="/bookings/", permanent=True)),
+    path("", RedirectView.as_view(url="/bookings/", permanent=True)),
 ]
 
 # Add folder for archives (aqui y en settings)

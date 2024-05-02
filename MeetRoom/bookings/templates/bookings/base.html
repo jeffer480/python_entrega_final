@@ -76,9 +76,10 @@
                             {% endif %}
                             {% if user.first_name %} {{ user.first_name }} {% else %} {{ user.username }} {% endif %}
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{% url 'update_perfil' %}">Editar perfil</a></li>
                             <li><a class="dropdown-item" href="{% url 'avatar_add' %}">Agregar Avatar</a></li>
+                            <li><a class="dropdown-item" href="{% url 'user_about' %}">Sobre el creador</a></li>
                             <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                         </ul>
                     </li>

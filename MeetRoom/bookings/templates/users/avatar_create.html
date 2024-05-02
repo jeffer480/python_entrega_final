@@ -12,9 +12,9 @@
                         <div class="card-body">
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                {{ PABLOCALA.as_p }}
+                                {{ avatar_form.as_p }}
                                 <button type="submit" class="btn btn-primary">Guardar</button>
-                                <a href="{% url 'booking_home' %}">Cancel</a>
+                                <a class="btn btn-primary" href="{% url 'booking_home' %}">Cancelar</a>
                             </form>
                         </div>
                     </div>

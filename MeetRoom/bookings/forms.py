@@ -21,7 +21,7 @@ class RoomCreateForm(forms.ModelForm):
         }
 
 class RoomSearchForm(forms.Form):
-    nombre = forms.CharField(max_length=50, required=True, label="Ingresar nombre de la sala", widget=forms.TextInput(attrs={'placeholder': 'Ingrese nombre a buscar ej. literatura', 'class': 'form-control'}))
+    nombre = forms.CharField(max_length=50, required=True, label="Ingresar nombre de la sala", widget=forms.TextInput(attrs={'placeholder': 'Ingrese nombre a buscar ej. literatura', 'class': 'form-control mt-3'}))
     
 # --------------------------------------form bookins------------------------------------------
 
@@ -103,5 +103,12 @@ class AvatarCreateForm(forms.ModelForm):
     class Meta:
         model = Avatar
         fields = ['image']
+        labels = {
+            'image': 'Seleccione una imagen',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(AvatarCreateForm, self).__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update({'class': 'form-control mt-3', 'placeholder': 'Seleccione una imagen'})
 
 

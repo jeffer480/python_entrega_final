@@ -130,19 +130,25 @@ def delete_room_view(request, room_id):
     sala_a_borrar.delete()
     return redirect("room_list")
 
+from django.db.models import Q
+
 @login_required
 def search_room_view(request):
     if request.method == "GET":
         form = RoomSearchForm()
         return render(request, "rooms/form-search.html", context={"search_form": form})
     elif request.method == "POST":
-        #  devolverle a "chrome" la lista de reservas encontrada o avisar que no se encontró nada
         form = RoomSearchForm(request.POST)
         if form.is_valid():
-            nombre = form.cleaned_data['nombre']
-        rooms = Sala.objects.filter(nombre=nombre).all()
-        contexto_dict = {"list_rooms": rooms}
-        return render(request, "rooms/list.html", contexto_dict)
+            nombre = form.cleaned_data.get('nombre')  # Obtener el valor del campo 'nombre' del formulario
+            rooms = Sala.objects.filter(Q(nombre__icontains=nombre) | Q(descripcion__icontains=nombre))
+            contexto_dict = {"list_rooms": rooms}
+            return render(request, "rooms/list.html", contexto_dict)
+        else:
+            # Manejar el caso en que el formulario no es válido
+            return render(request, "rooms/form-search.html", {"search_form": form})
+
+        
     
 
 # ----------------------------------------Vistas basadas en clases "VBC"------------------------------------
@@ -357,7 +363,7 @@ from .forms import AvatarCreateForm
 
 def avatar_view(request):
     if request.method == "GET":
-        contexto = {"PABLOCALA": AvatarCreateForm()}
+        contexto = {"avatar_form": AvatarCreateForm()}
     else:
         form = AvatarCreateForm(request.POST, request.FILES)
         if form.is_valid():
@@ -368,7 +374,11 @@ def avatar_view(request):
             nuevo_avatar.save()
             return redirect("booking_home")
         else:
-            contexto = {"PABLOCALA": form}
+            contexto = {"avatar_form": form}
 
 
     return render(request, "users/avatar_create.html", context=contexto)
+
+@login_required
+def UserAboutDetailView(request):
+    return render(request, "users/user_about.html")
