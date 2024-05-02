@@ -2,6 +2,8 @@ from django.urls import path
 # para user olvide contraseña, user cambiar contraseña
 from django.contrib.auth import views as auth_views
 
+
+
 from .views import (
     home_view, list_view_bookings, search_view_bookings, detail_view_bookings, create_booking_view,
     list_room_view, create_room_view, delete_room_view, update_room_view, search_room_view, detail_room_view,
@@ -9,7 +11,7 @@ from .views import (
     CommentListView, CommentCreateView, CommentDetailView, CommentUpdateView, CommentDeleteView,MyCommentsListView,
     RoomListView, RoomCreateView, RoomDetailView, RoomUpdateView, RoomDeleteView,
     #user
-    user_creation_view, user_login_view, user_logout_view, avatar_view, UserUpdateView, UserAboutDetailView
+    user_creation_view, user_login_view, user_logout_view, avatar_view, UserUpdateView, UserAboutDetailView,
 )
 
 

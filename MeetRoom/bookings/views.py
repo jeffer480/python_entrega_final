@@ -382,3 +382,4 @@ def avatar_view(request):
 @login_required
 def UserAboutDetailView(request):
     return render(request, "users/user_about.html")
+
